@@ -27,7 +27,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: angular-app
+          name: spring-angular-fe
           path: dist/spring-angular-fe # Adjust the path to your Angular app's build output directory
 
   deploy:
