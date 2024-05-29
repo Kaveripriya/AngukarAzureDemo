@@ -27,8 +27,8 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: spring-angular-fe
-          path: dist/spring-angular-fe  # Adjust the path to your Angular app's build output directory
+          name: angular-app
+          path: dist/angular-app  # Adjust the path to your Angular app's build output directory
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,11 +38,11 @@ jobs:
       - name: Download Artifact from the build job
         uses: actions/download-artifact@v2
         with:
-          name: spring-angular-fe
+          name: angular-app
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
-          app-name: frontendazuredemo  # Replace with your Azure App Service name
+          app-name: azurespringangular  # Replace with your Azure App Service name
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Replace with your Azure App Service publish profile secret
-          package: dist/spring-angular-fe
+          package: dist/angular-app
