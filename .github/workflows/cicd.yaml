@@ -1,0 +1,48 @@
+name: Deploy Angular App to Azure App Service
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Angular App
+        run: npm run build -- --prod
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: spring-angular-fe
+          path: dist/spring-angular-fe  # Adjust the path to your Angular app's build output directory
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download Artifact from the build job
+        uses: actions/download-artifact@v2
+        with:
+          name: spring-angular-fe
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: frontendazuredemo  # Replace with your Azure App Service name
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Replace with your Azure App Service publish profile secret
+          package: dist/spring-angular-fe
