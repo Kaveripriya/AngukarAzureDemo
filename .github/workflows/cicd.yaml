@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
@@ -25,7 +25,7 @@ jobs:
         run: npm run build 
 
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: angular-app
           path: dist/spring-angular-fe # Adjust the path to your Angular app's build output directory
@@ -36,12 +36,12 @@ jobs:
 
     steps:
       - name: Download Artifact from the build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: spring-angular-fe
 
       - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: frontendazuredemo  # Replace with your Azure App Service name
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Replace with your Azure App Service publish profile secret
